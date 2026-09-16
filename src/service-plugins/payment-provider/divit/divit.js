@@ -83,6 +83,17 @@ export const connectAccount = async (options, context) => {
       returnObj.accountId = data.data.branchID;
       returnObj.accountName = data.data.merchantID;
     } else {
+      // Without this, a rejected credential is invisible to the merchant: Wix shows only a
+      // generic "Couldn't connect. Check your credentials or contact your provider." toast,
+      // and nothing reaches Wix Site Monitoring. createTransaction and refundTransaction
+      // already log their error branches; this restores parity. The API key is deliberately
+      // not logged - the endpoint, status and divit error code are enough to diagnose.
+      divitLog("connectAccount rejected", {
+        url: getMerchantUrl,
+        status: response.status,
+        code: data?.code,
+        message: data?.message,
+      });
       returnObj.errorCode = String(data.code || response.status);
       returnObj.errorMessage =
         data.message || "Api Key is not correct with divit";
