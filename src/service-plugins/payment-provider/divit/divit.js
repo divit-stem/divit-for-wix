@@ -36,14 +36,14 @@ const upsertSecret = async (secret) => {
  * @returns {Promise<import('interfaces-psp-v1-payment-service-provider').ConnectAccountResponse | import('interfaces-psp-v1-payment-service-provider').BusinessError>}
  */
 export const connectAccount = async (options, context) => {
-  // Querying the /users/v2/profile endpoint serves two purposes:
+  // Querying the /directpay/profile endpoint serves two purposes:
   // 1. Validates the merchant's API Key against the divit API.
   // 2. Retrieves 'branchID' and 'merchantID' to map as 'accountId' and 'accountName' respectively.
   // Wix requires returning these fields to show connection details on the Wix Dashboard.
   // Note: These IDs are NOT needed or used in the createTransaction, refundTransaction, or Webhook workflows.
   const baseApiUrl = getBaseApiUrl(options.credentials);
   const apiKey = getApiKey(options.credentials);
-  const getMerchantUrl = baseApiUrl + "/users/v2/profile";
+  const getMerchantUrl = baseApiUrl + "/directpay/profile";
 
   let returnObj = {
     credentials: options.credentials,

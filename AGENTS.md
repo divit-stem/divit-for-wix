@@ -35,7 +35,7 @@ The codebase consists of four primary scripts residing in `src/`:
 ### 2. SPI Event Handlers (`divit.js`)
 Implements the core Wix SPI lifecycle hooks:
 * **`connectAccount`:** Triggered when the merchant links the plugin.
-  * Validates credentials by hitting Divit's `/users/v2/profile` endpoint.
+  * Validates credentials by hitting Divit's `/directpay/profile` endpoint.
   * Dynamically maps returned `branchID` and `merchantID` to Wix standard `accountId` and `accountName` for Dashboard display.
   * Writes the webhook `signatureKey` (or `sandboxSignatureKey`) securely into the **Wix Secret Manager** via elevated server functions.
 * **`createTransaction`:** Triggered when a shopper pays.
